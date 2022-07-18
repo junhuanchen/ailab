@@ -1294,14 +1294,17 @@ class RealWaifuUpScaler(object):
 
 if __name__ == "__main__":
     ###########inference_img
-    import time, cv2,sys,pdb
+    import time, cv2,sys,pdb,os
+    os.mkdir("mkdir inputs -p")
+    os.mkdir("mkdir output-dir-all-test -p")
+    os.mkdir("mkdir tmp -p")
     from time import time as ttime
     for weight_path, scale in [("weights_v3/up2x-latest-denoise3x.pth", 2),("weights_v3/up3x-latest-denoise3x.pth", 3),("weights_v3/up4x-latest-denoise3x.pth", 4),("weights_pro/pro-denoise3x-up2x.pth", 2),("weights_pro/pro-denoise3x-up3x.pth", 3),]:
         for tile_mode in [0,5]:
             for cache_mode in [0,1,2,3]:
                 for alpha in [1]:
                     weight_name=weight_path.split("/")[-1].split(".")[0]
-                    upscaler2x = RealWaifuUpScaler(scale, weight_path, half=True, device="cuda:0")
+                    upscaler2x = RealWaifuUpScaler(scale, weight_path, half=False, device="cpu")
                     input_dir="%s/inputs"%root_path
                     output_dir="%s/output-dir-all-test"%root_path
                     os.makedirs(output_dir,exist_ok=True)
